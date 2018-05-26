@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erdong.warehouse.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.erdong.warehouse.pojo.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="lock" property="lock" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, account, password, `lock`, create_time, nickname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.erdong.warehouse.pojo.User" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (account, password, lock, 
+      create_time, nickname)
+    values (#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{lock,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{nickname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.erdong.warehouse.pojo.User" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="lock != null" >
+        lock,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="lock != null" >
+        #{lock,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.erdong.warehouse.pojo.User" >
+    update user
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="lock != null" >
+        `lock` = #{lock,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erdong.warehouse.pojo.User" >
+    update user
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      `lock` = #{lock,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      nickname = #{nickname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="login" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from `user`
+    where account = #{account} and     password=#{password}
+  </select>
+  <select id="chcekAcount" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select
+   count(*)
+    from `user`
+    where account = #{account}
+  </select>
+  <select id="selectBy" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from user
+ order by create_time DESC
+  </select>
+</mapper>

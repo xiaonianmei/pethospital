@@ -1,0 +1,4 @@
+/* pages/question/question.wxss */
+.plays{
+  display: none
+}

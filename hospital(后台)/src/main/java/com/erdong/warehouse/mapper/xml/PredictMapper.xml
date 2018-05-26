@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erdong.warehouse.mapper.PredictMapper" >
+  <resultMap id="BaseResultMap" type="com.erdong.warehouse.pojo.Predict" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="doctor_id" property="doctorId" jdbcType="BIGINT" />
+    <result column="predict_time" property="predictTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="statu" property="statu" jdbcType="INTEGER" />
+    <result column="deal" property="deal" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, doctor_id, predict_time, create_time, statu, deal
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from predict
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from predict
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.erdong.warehouse.pojo.Predict" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into predict (user_id, doctor_id, predict_time, 
+      create_time, statu, deal
+      )
+    values (#{userId,jdbcType=BIGINT}, #{doctorId,jdbcType=BIGINT}, #{predictTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{statu,jdbcType=INTEGER}, #{deal,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.erdong.warehouse.pojo.Predict" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into predict
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="doctorId != null" >
+        doctor_id,
+      </if>
+      <if test="predictTime != null" >
+        predict_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="statu != null" >
+        statu,
+      </if>
+      <if test="deal != null" >
+        deal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="doctorId != null" >
+        #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="predictTime != null" >
+        #{predictTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statu != null" >
+        #{statu,jdbcType=INTEGER},
+      </if>
+      <if test="deal != null" >
+        #{deal,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.erdong.warehouse.pojo.Predict" >
+    update predict
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="doctorId != null" >
+        doctor_id = #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="predictTime != null" >
+        predict_time = #{predictTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="statu != null" >
+        statu = #{statu,jdbcType=INTEGER},
+      </if>
+      <if test="deal != null" >
+        deal = #{deal,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erdong.warehouse.pojo.Predict" >
+    update predict
+    set user_id = #{userId,jdbcType=BIGINT},
+      doctor_id = #{doctorId,jdbcType=BIGINT},
+      predict_time = #{predictTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      statu = #{statu,jdbcType=INTEGER},
+      deal = #{deal,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByUserId" parameterType="java.lang.Long" resultType="com.erdong.warehouse.pojo.Predict">
+     SELECT
+	q.*, m.`name`
+FROM
+	predict q
+LEFT JOIN t_sys_manager m ON m.id = q.doctor_id
+where q.user_id = #{userId,jdbcType=BIGINT} order by create_time desc
+  </select>
+  <select id="selectBydoctorId" parameterType="java.util.Map" resultType="com.erdong.warehouse.pojo.Predict">
+     SELECT
+	q.*, m.`name`,u.nickname
+FROM
+	predict q
+LEFT JOIN t_sys_manager m ON m.id = q.doctor_id
+inner join `user`  u on  u.id=q.user_id
+    <if test="nickname!=null">
+      and LOCATE(#{nickname,jdbcType=VARCHAR}, u.nickname) > 0
+    </if>
+    WHERE  1=1
+<if test="doctorId!=null">
+  and  q.doctor_id =#{doctorId}
+</if>
+    <if test="firstTime != null and secondTime!=null">
+      AND predict_time BETWEEN  #{firstTime} and #{secondTime}
+    </if>
+ order by predict_time desc
+  </select>
+</mapper>

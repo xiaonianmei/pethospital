@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--<link rel="stylesheet" href="../static/layui/css/layui.css"/>
+    <script src="../static/layui/layui.js"></script>-->
+    <!-- <script rel="stylesheet" type="text/css" th:href="@{/layui/layui.js}"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"></link>
+
+</head>
+.<style>
+    body
+    {
+        padding:0;
+        margin:0;
+    }
+</style>
+<body >
+<div style="margin-bottom: 5px;">
+
+    <!-- 示例-970 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:970px;height:50px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
+    <button class="layui-btn" onclick="redi()">添加常见问题</button>
+</div>
+
+<!--
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+    <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+    <button class="layui-btn" data-type="isAll">验证是否全选</button>
+</div>
+-->
+
+<table class="layui-table" lay-data="{width: 1600, height:600, url:'/sys/question/list', page:true, id:'idTest'}" lay-filter="demo">
+    <thead>
+    <tr>
+        <!--<th lay-data="{type:'checkbox', fixed: 'left'}"></th>-->
+        <th lay-data="{field:'id', width:200, fixed: true}">ID</th>
+        <th lay-data="{field:'title', width:500}">标题</th>
+        <th lay-data="{field:'desription', width:300}">描述</th>
+
+        <!--   <th style="display: none" lay-data="{field:'productId', width:100}">productId</th>
+           <th style="display: none" lay-data="{field:'savId', width:100}">savId</th>
+           <th style="display: none" lay-data="{field:'humId', width:100}">humId</th>-->
+        <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
+    </tr>
+    </thead>
+</table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/javascript" src="http://static.battcn.com/back/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript" th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use('table', function(){
+        var layer = layui.layer;
+        var table = layui.table;
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(demo)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                var r=confirm("确认要删除吗")
+                if (r==true)
+                {
+                    $.ajax({
+                        async: false,
+                        type: "GET",
+                        url: "/sys/question/remove",
+                        dataType: "text",
+                        data: {
+                            id:data.id
+                        },
+                        success: function (res) {
+                            console.log(res);
+                            console.log(res=="success");
+                            if(res=="success"){
+                                location.href="/send?url=29";
+                            }else{
+                                layer.msg("未删除成功");
+                            }
+                        },
+                        error:function (res) {
+                            console.log(res);
+                        }
+                    });
+                }
+                else
+                {
+
+                }
+
+
+                    //console.log(data.id);
+
+
+            } else if(obj.event === 'edit'){
+                sessionStorage.setItem('questions',JSON.stringify(data));
+                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                location.href="/sends?url=29";
+            }
+        });
+        var $ = layui.$, active = {
+            getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            ,getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            }
+            ,isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+    function redi() {
+        sessionStorage.removeItem("question");
+        location.href="/sends?url=29";
+    }
+</script>
+
+
+</body>
+</html>

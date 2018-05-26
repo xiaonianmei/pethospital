@@ -1,0 +1,36 @@
+<!--pages/pinpai/pinpai.wxml-->
+<view class="all">
+<view class="login" style="height:200px;">
+    <image src="../../images/backGround.jpg" style="height: 200px" class="loginbg"></image>
+    <view class="userinfo" style="padding-top:40px">
+        <view   id="user_name" style='color:white'>
+            您好，{{account}}
+        </view>
+    </view>
+    <!--<image src="../../images/personal_icon_arrow.png" class="person_arrow"></image>-->
+</view>
+<!-- 第一块 -->
+<view class="thirdblock">
+ <view class="item" bindtap="openAccount" data-index="1">
+        <image src="../../images/suggest.png" class="item_ico" bindtap="modalinput"></image>
+        <span>修改密码</span>
+    </view>
+    <view class="h1"></view>
+  <view class="item" bindtap="openAccount" data-index="1">
+        <image src="../../images/suggest.png" class="item_ico" bindtap="loginout"></image>
+        <span>退出登陆</span>
+    </view>
+ 
+</view>
+<view class="thirdblock">
+    <view class="item3" >
+      宠物医院是经农委批准的正规宠物医院，证照齐全。禾荟宠物医院现有面积将近350平米，集宠物美容、宠物医疗、宠物外科手术、宠物疾病化验的大型综合性的宠物服务机构。医院现下设宠物美容分部和宠物医疗分部。宠物美容分部位于虹梅南路217号，配有专业资质的宠物美容师，为你家宠物提供专业、细致的全套美容服务。
+    </view>
+</view>
+ <view class="h10"></view>
+<view class="h10"></view>
+</view>
+<modal hidden="{{hiddenmodalput}}" title="请输入密码" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
+    <input type='password'placeholder="请输入密码" name="password" maxlength="12" value="{{password}}" bindblur="realnameConfirm" auto-focus/>  
+    <input type='password'placeholder="请再次输入密码" name="repassword" maxlength="12" value="{{repassword}}" bindblur="realnameConfirms" />  
+</modal>  

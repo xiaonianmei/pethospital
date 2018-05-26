@@ -1,0 +1,49 @@
+       <view style="font-size:40rpx;height:30px;width:100%; display: flex; flex-direction: row;margin-top:3px">
+         <view style='height:40px;width:55%'>我的挂号</view>     <view style='height:25px;width:40%;border-radius: 5px;background:#D1EEEE;text-align:center;'  bindtap="modalinput">预约挂号</view>   
+         </view>
+     
+  <view style=''>
+       <view  wx:for="{{list}}"  wx:for-index="idx" wx:for-item="itemName" wx:key="index">
+           <view style="height:50px;width:100%;border-radius: 5px;padding-top:5px;padding-left:4px">
+              <view style="font-size:30rpx;height:15px;width:100%">预约时间:{{itemName.date}}</view> 
+               <view class="line"></view>
+             <view style="font-size:40rpx;height:30px;width:100%; display: flex; flex-direction: row;margin-top:3px">
+                <view style="height:30px;width:65%">预约医生:{{itemName.name}}</view>
+                <!-- {{index}}: {{itemName.status==0?普通:加急}} -->
+                <view style="height:30px;width:30%" wx:if="{{itemName.statu==0}}">普通</view>
+                <view style="height:30px;width:30%;color:red" wx:else>加急</view>
+             </view>
+           </view>
+           <view style='height:5px;width:100%;'></view>
+        </view>
+  </view>
+<modal hidden="{{hiddenmodalput}}" title="预约挂号" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
+<radio-group class="radio-group" bindchange="radioChange">
+  医生：<label class="radio" wx:for="{{items}}" >
+    <radio value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+  </label>
+</radio-group>
+    <view class="section">
+  <view class="section__title">日期</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2019-09-01" bindchange="bindDateChange">
+    <view class="picker">
+      当前选择: {{date}}
+    </view>
+  </picker>
+ <view class="section">
+  <view class="section__title">时间</view>
+  <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+    <view class="picker">
+      当前选择: {{time}}
+    </view>
+  </picker>
+</view>
+<radio-group class="radio-group" bindchange="radiosChange">
+  医生：<label class="radio" >
+    <radio value="0" checked="ture" />普通
+     <radio value="1"  />加急
+  </label>
+</radio-group>
+</view>
+   
+</modal>  

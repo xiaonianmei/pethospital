@@ -1,0 +1,16 @@
+ 
+  <view style=''>
+      
+           <view style="height:50px;width:100%;border-radius: 5px;padding-top:5px;padding-left:4px">
+              <view style="font-size:30rpx;height:15px;width:100%">提问时间:{{quick.date}}</view> 
+               <view class="line"></view>
+          
+                <view style="height:30px;width:100%">提问主题:{{quick.title}}</view>
+                 <view style="height:100px;width:100%">问题描述:{{quick.describe}}</view>
+                 <view style="height:30px;width:100%" wx:if="{{quick.name!=null}}">回答医生:{{quick.name}}</view>
+                 <view style="height:100px;width:100%" wx:if="{{quick.suggestion!=null}}">医生建议:{{quick.suggestion}}</view>
+          
+           </view>
+           <view style='height:5px;width:100%;'></view>
+      
+  </view>

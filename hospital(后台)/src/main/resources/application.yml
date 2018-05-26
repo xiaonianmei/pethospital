@@ -1,0 +1,30 @@
+server:
+  port: 80
+
+spring:
+    thymeleaf:
+        cache: false
+        content-type: text/html
+        encoding: UTF-8
+        mode: HTML5
+        prefix: classpath:/templates/
+        suffix: .html
+    application:
+        name: warehouse
+    datasource:
+        url: jdbc:mysql://localhost:3306/hospital?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: qiumei190
+        driver-class-name: com.mysql.jdbc.Driver
+    resources:
+          static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/
+
+mybatis:
+  mapper-locations:
+  - classpath:com/erdong/warehouse/mapper/xml/*.xml
+  type-aliases-package: com.erdong.warehouse.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+mapper:
+  mappers:
+  - com.erdong.warehouse.mapper.*

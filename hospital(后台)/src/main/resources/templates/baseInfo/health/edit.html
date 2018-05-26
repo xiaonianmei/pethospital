@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--<link rel="stylesheet" href="../static/layui/css/layui.css"/>
+    <script src="../static/layui/layui.js"></script>-->
+    <!-- <script rel="stylesheet" type="text/css" th:href="@{/layui/layui.js}"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"></link>
+
+</head>
+.<style>
+    body
+    {
+        padding:0;
+        margin:0;
+    }
+</style>
+<body >
+<!--sys/manager/edit-->
+<form class="layui-form" action="/baseInfo/health/edit" >
+    <div class="layui-form-item">
+            <input type="text" name="predictId" id="predictId" placeholder="" style="display: none" autocomplete="off" class="layui-input">
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">宠物类型</label>
+        <div class="layui-input-block">
+            <input type="text" name="petType" id="petType"  autocomplete="off" placeholder="宠物类型" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">宠物年龄</label>
+        <div class="layui-input-block">
+            <input type="number" name="age" id="age"  autocomplete="off" placeholder="宠物年龄" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">检查结果</label>
+        <div class="layui-input-block">
+            <input type="text" name="chcek" id="chcek"  autocomplete="off" placeholder="检查结果" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">病症</label>
+        <div class="layui-input-block">
+            <input type="text" name="illness" id="illness"  autocomplete="off" placeholder="病症" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开药</label>
+        <div class="layui-input-block">
+            <input type="text" name="medical" id="medical"  autocomplete="off" placeholder="开药" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">专家建议</label>
+        <div class="layui-input-block">
+            <input type="text" name="suggestion" id="suggestion"  autocomplete="off" placeholder="专家建议" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+
+<script type="text/javascript" src="http://static.battcn.com/back/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript" th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 6&&value.length>12){
+                    return '账号要在6-12个字符之间';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,content: function(value){
+                layedit.sync(editIndex);
+            },
+            email:function (value) {
+                var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则表达式
+                //var obj = document.getElementById("mazey"); //要验证的对象
+                if(value === ""){ //输入不能为空
+                    return "邮箱不能为空";
+                }
+                if(!reg.test(value)) { //正则验证不通过，格式不对
+                    return "邮箱格式不正确";
+                }
+            },
+            name: function(value){
+                if(value.length > 6){
+                    return '名字不得大于6个字符啊';
+                }
+            }
+
+        });
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+
+            //console.log(data.fiel)
+            /*layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            });*/
+           // return false;
+        });
+    });
+
+    $(document).ready(function () {
+        var pre=JSON.parse(sessionStorage.getItem("predict"));
+        console.log(pre);
+        console.log(pre.id);
+        $("#predictId").val(pre.id);
+     /*   if(sessionStorage.getItem("product")!=null){
+            var manager=JSON.parse(sessionStorage.getItem("product"));
+            $("#productId").val(manager.productId);
+            $("#productName").val(manager.productName);
+            $("#productSpec").val(manager.productSpec);
+            $("#productCate").val(manager.productCate);
+            $("#productStand").val(manager.productStand);
+            $("#productScond").val(manager.productScond);
+            $("#productNumber").val(manager.productNumber);
+            $("#productSlife").val(manager.productSlife);
+            $("#productYn").val(manager.productYn);
+        }
+        console.log("1");*/
+       /* $("select[name=role]").empty();
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "/base/product/list",
+            dataType: "json",
+            data: {},
+            success: function (res) {
+                var opt = "";
+                //$("select[name=termId]").append(opt);
+                if(res.data!=null&&res.data.length>0){
+                    console.log(4);
+                    for(var i=0; i<res.data.length; i++){
+                        opt="<option value=\""+res.data[i].id+"\"";
+                        opt += ">"+res.data[i].name+"</option>"; //动态添加数据
+                        $("select[name=role]").append(opt);
+                    }
+                    //layui.form.render('select','boardFilter');
+                   // layui.form('select').render();
+                }
+
+            }
+        });*/
+    });
+
+
+</script>
+
+
+</body>
+</html>

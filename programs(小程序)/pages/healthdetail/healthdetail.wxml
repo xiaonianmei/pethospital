@@ -1,0 +1,21 @@
+<!--pages/healthdetail/healthdetail.wxml-->
+<view style='padding-top:10px;padding-left:5px;padding-right:5px'>
+ <view>宠物类型:{{health.petType}}</view>
+    <view>宠物年龄:{{health.age}}</view>
+       <view>就诊医生:{{health.name}}</view>
+          <view>检查报告:{{health.chcek}}</view>
+             <view>确诊病情:{{health.illness}}</view>
+                <view>药品:{{health.medical}}</view>
+                   <view>医生建议:{{health.suggestion}}</view>
+                  
+ 
+ 
+ 
+
+ 
+  
+ 
+    
+   
+      
+</view>

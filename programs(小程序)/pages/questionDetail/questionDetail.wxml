@@ -1,0 +1,3 @@
+<!--pages/questionDetail/questionDetail.wxml-->
+<view>{{title}}</view>
+<view>{{desription}}</view>

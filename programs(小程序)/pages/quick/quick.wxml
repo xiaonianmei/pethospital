@@ -1,0 +1,28 @@
+<!--pages/quick/quick.wxml-->
+  <view style="font-size:40rpx;height:30px;width:100%; display: flex; flex-direction: row;margin-top:3px">
+         <view style='height:40px;width:30%'>问诊记录</view>
+             <view style='height:25px;width:30%;border-radius: 5px;background:#D1EEEE;text-align:center;'  bindtap="getquestion">常见问题</view>   
+              <view style='margin-left:5%;height:25px;width:30%;border-radius: 5px;background:#D1EEEE;text-align:center;'  bindtap="modalinput">快速问诊</view>   
+         </view>
+     
+  <view style=''>
+       <view  wx:for="{{list}}"  wx:for-index="idx" wx:for-item="itemName" wx:key="index">
+           <view style="height:50px;width:100%;border-radius: 5px;padding-top:5px;padding-left:4px">
+              <view style="font-size:30rpx;height:15px;width:100%">提问时间:{{itemName.date}}</view> 
+               <view class="line"></view>
+              <view style="font-size:40rpx;height:30px;width:100%; display: flex; flex-direction: row;margin-top:3px">
+                <view style="height:30px;width:55%">{{itemName.title}}</view>
+                 <view style="height:30px;width:25%" wx:if="{{itemName.doctorId==null}}">等待回答</view>
+                <view style="height:30px;width:25%;color:red" wx:else>已回答</view>
+                <view data-index="{{idx}}" style="height:30px;width:15%" bindtap="show">查看</view>
+             </view> 
+           </view>
+           <view style='height:5px;width:100%;'></view>
+        </view>
+  </view>
+<modal hidden="{{hiddenmodalput}}" title="快速问诊" confirm-text="提交" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm">  
+
+      <input type='text'placeholder="请输入主题" name="title" maxlength="14" value="{{title}}" bindblur="realnameConfirm" />  
+      <textarea style="width:80%" placeholder="描述：包括宠物的详细信息及症状" name="describe" maxlength="200" value="{{describe}}" bindblur="bindTextAreaBlur" auto-focus />  
+      
+</modal>  

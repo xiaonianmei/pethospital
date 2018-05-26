@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--<link rel="stylesheet" href="../static/layui/css/layui.css"/>
+    <script src="../static/layui/layui.js"></script>-->
+    <!-- <script rel="stylesheet" type="text/css" th:href="@{/layui/layui.js}"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"></link>
+
+</head>
+.<style>
+    body
+    {
+        padding:0;
+        margin:0;
+    }
+</style>
+<body >
+<div style="margin-bottom: 5px;">
+
+    <div class="layui-form-item">
+
+
+        <div class="layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="nickname" id="nickname"  autocomplete="off" class="layui-input">
+            </div>
+            <label class="layui-form-label">确诊时间</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test5" placeholder="只填一个无效">
+            </div>
+            -
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="test6" placeholder="yyyy-MM-dd HH:mm:ss">
+            </div>
+        </div>
+        <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
+        <button class="layui-btn" onclick="redi()">查询</button>
+    </div>
+        <!-- 示例-970 -->
+
+
+    <!-- 示例-970 -->
+</div>
+
+<!--
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+    <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+    <button class="layui-btn" data-type="isAll">验证是否全选</button>
+</div>
+-->
+
+<!--<table class="layui-table" lay-data="{width: 1600, height:600, url:'/stock/order/list', page:true, id:'idTest'}" lay-filter="demo">
+    <thead>
+    <tr>
+        &lt;!&ndash;<th lay-data="{type:'checkbox', fixed: 'left'}"></th>&ndash;&gt;
+        <th lay-data="{field:'savId', width:200, fixed: true}">ID</th>
+        <th lay-data="{field:'savName', width:500}">储区</th>
+        <th lay-data="{field:'outNum', width:300}">出库数量</th>
+        <th lay-data="{field:'onNum', width:300}">入库数量</th>
+        &lt;!&ndash;   <th style="display: none" lay-data="{field:'productId', width:100}">productId</th>
+           <th style="display: none" lay-data="{field:'savId', width:100}">savId</th>
+           <th style="display: none" lay-data="{field:'humId', width:100}">humId</th>&ndash;&gt;
+        &lt;!&ndash;  <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>&ndash;&gt;
+    </tr>
+    </thead>
+</table>-->
+<table id="demo" lay-filter="demo">
+
+</table>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">确诊</a>
+
+</script>
+<script type="text/javascript" src="http://static.battcn.com/back/js/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript" th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use('table', function(){
+        var layer = layui.layer;
+        var table = layui.table;
+        //监听表格复选框选择
+
+          var arr=[//表头
+                {field: 'id', title: 'ID', width: 200, sort: true, fixed: 'left'}
+              , {field: 'petType', title: '宠物类别', width: 200}
+              , {field: 'age', title: '年龄', width: 200, sort: true}
+              , {field: 'chcek', title: '检查结果', width: 200}
+              , {field: 'illness', title: '病种', width: 200},
+               {field: 'medical', title: '用药', width: 200},
+              {field: 'suggestion', title: '医生建议', width: 200},
+              {field: 'date', title: '确诊时间', width: 200},
+              {field: 'nickname', title: '用户', width: 200}
+              /*{ width: 200,fixed: 'right',align:'center', toolbar: '#barDemo'}*/
+          ];
+
+            //第一个实例
+            table.render({
+                elem: '#demo'
+                ,height: 315
+                ,url: '/baseInfo/health/list' //数据接口
+                ,page: true //开启分页
+                ,cols: [arr]
+                //where:{productName:}
+            });
+
+
+
+
+        table.on('checkbox(demo)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(demo)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                var r=confirm("确认要删除吗");
+                if (r==true)
+                {
+                    $.ajax({
+                        async: false,
+                        type: "GET",
+                        url: "/outbound/order/remove",
+                        dataType: "text",
+                        data: {
+                            id:data.id
+                        },
+                        success: function (res) {
+                            console.log(res);
+                            console.log(res=="success");
+                            if(res=="success"){
+                                location.href="http://localhost/send?url=19";
+                            }else{
+                                layer.msg("未删除成功");
+                            }
+                        },
+                        error:function (res) {
+                            console.log(res);
+                        }
+                    });
+                }
+                else
+                {
+
+                }
+
+
+                //console.log(data.id);
+
+
+            } else if(obj.event === 'edit'){
+                if(data.deal==1){
+                    layer.msg("该挂号已确诊");
+                    return;
+                }else{
+                    $.ajax({
+                        async: false,
+                        type: "GET",
+                        url: "/user/sure/role",
+                        dataType: "json",
+                        // data: {
+                        //     id:data.id
+                        // },
+                        success: function (res) {
+                            console.log(res);
+                            console.log(res=="success");
+                            if(res=="fail"){
+                                layer.msg("你不是医生");
+
+                            }else{
+                                sessionStorage.setItem('predict',JSON.stringify(data));
+                                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                                location.href="http://localhost/sends?url=27";
+                            }
+                        },
+                        error:function (res) {
+                            console.log(res);
+                        }
+                    });
+                }
+
+            }
+        });
+        var $ = layui.$, active = {
+            getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            ,getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            }
+            ,isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+    function redi() {
+
+        var nickname=$('#nickname').val();
+        var firstTime=$('#test5').val();
+        var secondTime=$('#test6').val();
+            layui.use('table', function(){
+                var layer = layui.layer;
+                var table = layui.table;
+                //监听表格复选框选择
+
+                var arr=[//表头
+                    {field: 'id', title: 'ID', width: 200, sort: true, fixed: 'left'}
+                    , {field: 'nickname', title: '用户', width: 200}
+
+                    , {field: 'date', title: '预约时间', width: 200, sort: true}
+
+                    , {field: 'speed', title: '是否加急', width: 200}
+                    , {field: 'name', title: '预约医生', width: 200},
+                    {field: 'deals', title: '是否处理', width: 200},
+                    { width: 200,fixed: 'right',align:'center', toolbar: '#barDemo'}
+                ];
+
+                //第一个实例
+                table.render({
+                    elem: '#demo'
+                    ,height: 315
+                    ,url: '/baseInfo/predict/list' //数据接口
+                    ,page: true //开启分页
+                    ,cols: [arr]
+                    ,where:{
+                        nickname:nickname,
+                        firstTime:firstTime,
+                        secondTime:secondTime
+                    }
+                    //where:{productName:}
+                });
+            });
+
+    }
+
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+
+        //常规用法
+        laydate.render({
+            elem: '#test5'
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '#test6'
+            ,type: 'datetime'
+        });
+    })
+
+</script>
+
+
+</body>
+</html>

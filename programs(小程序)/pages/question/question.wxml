@@ -1,0 +1,16 @@
+<!--pages/question/question.wxml-->
+  <view style='margin:10px;flex-flow:row;display:flex'>
+                <view style="width:12%;font-size:10px;height:30px;line-height:30px" >关键词</view>
+                <view style="width:65%">
+                  <input type="text" name="text" value='{{search}}' maxlength="12" style="border:1px solid #cccccc;border-radius:10px;height:30px" bindblur='bindTextAreaBlur'></input>
+                </view>
+                <button style="height:30px;font-size:10px;"  bindtap='check'>查询</button>
+</view>
+<view  wx:for="{{datalist}}"  wx:for-index="idx" wx:for-item="itemName" wx:key="index" style='padding-left:10px;padding-right:10px'>
+    <view style=' display: flex; flex-direction: row;'>
+    <view>{{idx}}</view>
+    <view style='margin-left:5%'  ><text>{{itemName.title}}</text></view>
+    <view style='margin-left:55%' data-index="{{idx}}" bindtap='changedetail'>详情</view>
+    </view>
+  </view>
+  <view style='width:100%;text-align: center;' class="{{show?'':'plays'}}">暂无数据</view>

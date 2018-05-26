@@ -1,0 +1,24 @@
+<view class="content" style='height:{{winHeight}}px;margin-top:0px'>
+       <form bindsubmit="formSubmit" bindreset="formReset">  
+        <view style="margin-top:120px;border:0px solid #cccccc;width:99%;">
+              <view style='margin:10px;flex-flow:row;display:flex'>
+                <view class="weui-label" style="width:20%">帐号</view>
+                <view style="width:75%">
+                  <input type="text" name="account" maxlength="12"  style="border:1px solid #cccccc;border-radius:10px;"></input>
+                </view>
+              </view>
+             <view style='margin:10px;flex-flow:row;display:flex'>
+                <view style="width:20%" >密码</view>
+                <view style="width:75%">
+                  <input type="password" name="password" maxlength="12" style="border:1px solid #cccccc;border-radius:10px"></input>
+                </view>
+              </view>
+              <view bindtap="register" style='margin-left:200px'>尚未注册?</view>
+               <view class="weui-btn-area">  
+          <button class="weui-btn" type="primary" formType="submit" style='width:80%'>登录</button>  
+        </view>  
+        </view>
+         </form>  
+   
+
+</view>

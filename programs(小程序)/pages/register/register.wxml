@@ -1,0 +1,49 @@
+<view class="page__bd">  
+  <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{errorMsg}}</view>  
+  <view style="height: {{windowHeight}}px; width: {{windowWidth}}px;" class="back_img">  
+  </view>  
+  <view style="position:absolute;top:{{windowHeight * 0.06}}px;">  
+  
+  </view>  
+  <form bindsubmit="formSubmit" bindreset="formReset">  
+    <view class="login_info" style="top:{{windowHeight * 0.35}}px;width: {{windowWidth * 0.92}}px;">  
+      <view class="weui-cells weui-cells_after-title login_form">  
+        <view class="weui-cell weui-cell_input flexs">  
+          <view class="weui-cell__hd lefts">  
+            <view class="weui-label">账号</view>  
+          </view>  
+          <view class="weui-cell__bd rights">  
+            <input class="weui-input" placeholder="请输入账号" type="text" maxlength="12" value="{{account}}" focus="true" name="account"/>  
+          </view>  
+        </view>  
+        <view class="weui-cell weui-cell_input flexs" style='margin-top:10px'>  
+          <view class="weui-cell__hd lefts">  
+            <view class="weui-label">密码</view>  
+          </view>  
+          <view class="weui-cell__bd rights">  
+            <input class="weui-input" placeholder="请输入密码" type="password" maxlength="12" value="{{password}}" name="password"/>  
+          </view>  
+        </view>  
+        <view class="weui-cell weui-cell_input flexs" style='margin-top:10px'>  
+          <view class="weui-cell__hd lefts">  
+            <view class="weui-label">密码</view>  
+          </view>  
+          <view class="weui-cell__bd rights">  
+            <input class="weui-input" placeholder="请输入确认密码" type="password" maxlength="12" value="{{subPassword}}" name="subPassword"/>  
+          </view>  
+        </view>  
+        <view class="weui-cell weui-cell_input flexs" style='margin-top:10px'>  
+          <view class="weui-cell__hd lefts">  
+            <view class="weui-label">昵称</view>  
+          </view>  
+          <view class="weui-cell__bd rights">  
+            <input class="weui-input" placeholder="昵称" type="text" maxlength="12" value="{{nickname}}" name="nickname"/>  
+          </view>  
+        </view>  
+        <view class="weui-btn-area" style='margin-top:10px'>  
+          <button class="weui-btn" type="primary" formType="submit">注册</button>  
+        </view>  
+      </view>  
+    </view>  
+  </form>  
+</view>  

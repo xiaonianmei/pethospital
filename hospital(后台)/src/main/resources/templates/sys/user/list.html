@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <!--<link rel="stylesheet" href="../static/layui/css/layui.css"/>
+    <script src="../static/layui/layui.js"></script>-->
+    <!-- <script rel="stylesheet" type="text/css" th:href="@{/layui/layui.js}"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"></link>
+
+</head>
+.<style>
+    body
+    {
+        padding:0;
+        margin:0;
+    }
+</style>
+<body >
+<div style="margin-bottom: 5px;">
+
+    <!-- 示例-970 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:970px;height:50px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins>
+
+</div>
+
+<!--
+<div class="layui-btn-group demoTable">
+    <button class="layui-btn" data-type="getCheckData">获取选中行数据</button>
+    <button class="layui-btn" data-type="getCheckLength">获取选中数目</button>
+    <button class="layui-btn" data-type="isAll">验证是否全选</button>
+</div>
+-->
+
+<table class="layui-table" lay-data="{width: 1200, height:600, url:'/sys/user/list', page:true, id:'idTest'}" lay-filter="demo">
+    <thead>
+    <tr>
+        <!--<th lay-data="{type:'checkbox', fixed: 'left'}"></th>-->
+   <!--     <th lay-data="{field:'id', width:240, sort: true, fixed: true}">ID</th>-->
+        <th lay-data="{field:'nickname', width:240}">用户名</th>
+        <th lay-data="{field:'account', width:240,}">账号</th>
+        <th lay-data="{field:'date', width:240}">创建时间</th>
+        <th lay-data="{field:'locks', width:240}">是否锁定</th>
+       <!-- <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+        <th lay-data="{field:'city', width:80}">城市</th>
+        <th lay-data="{field:'sign', width:160}">签名</th>
+        <th lay-data="{field:'experience', width:80}">积分</th>
+        <th lay-data="{field:'classify', width:80}">职业</th>
+        <th lay-data="{field:'wealth', width:135}">财富</th>
+        <th lay-data="{field:'score', width:80, fixed: 'right'}">评分</th>-->
+        <th lay-data="{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}"></th>
+    </tr>
+    </thead>
+</table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">锁定</a>
+    <a class="layui-btn layui-btn-xs" lay-event="detail">解除</a>
+</script>
+
+<script type="text/javascript" th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use('table', function(){
+        var table = layui.table;
+        //监听表格复选框选择
+        table.on('checkbox(demo)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(demo)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                if(data.lock==0){
+                    layer.msg("该用户未锁定");
+                }else {
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "/sys/user/edit",
+                        dataType: "json",
+                        data: {
+                            id:data.id,
+                            lock:0
+                        },
+                        success: function (res) {
+                            if(res==1){
+                                location.href="/send?url=8";
+                            }else{
+                                layer.msg("未解除成功");
+                            }
+                        }
+                    });
+                }
+                //layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                if(data.lock==1){
+                    layer.msg("该用户已锁定");
+                }else {
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "/sys/user/edit",
+                        dataType: "json",
+                        data: {
+                            id:data.id,
+                            lock:1
+                        },
+                        success: function (res) {
+                            if(res==1){
+                                location.href="/send?url=8";
+                            }else{
+                                layer.msg("未锁定成功");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        var $ = layui.$, active = {
+            getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            ,getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            }
+            ,isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+
+</body>
+</html>

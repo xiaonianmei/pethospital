@@ -1,0 +1,15 @@
+ <view style=''>
+       <view  wx:for="{{list}}"  wx:for-index="idx" wx:for-item="itemName" wx:key="index">
+           <view style="height:50px;width:100%;border-radius: 5px;padding-top:5px;padding-left:4px">
+              <view style="font-size:30rpx;height:15px;width:100%">就诊时间:{{itemName.date}}</view> 
+               <view class="line"></view>
+             <view style="font-size:40rpx;height:30px;width:100%; display: flex; flex-direction: row;margin-top:3px">
+               <view style="font-size:40rpx;height:30px;width:100%; display: flex; flex-direction: row;margin-top:3px">
+                <view style="height:30px;width:75%">病症:{{itemName.illness}}</view>
+                <view data-index="{{idx}}" style="height:30px;width:15%" bindtap="show">详情</view>
+             </view> 
+             </view>
+           </view>
+           <view style='height:5px;width:100%;'></view>
+        </view>
+  </view>

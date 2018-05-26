@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erdong.warehouse.mapper.QuickMapper" >
+  <resultMap id="BaseResultMap" type="com.erdong.warehouse.pojo.Quick" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="doctor_id" property="doctorId" jdbcType="BIGINT" />
+    <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="res_time" property="resTime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, user_id, `describe`, doctor_id, suggestion, create_time, res_time,title
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from quick
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from quick
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.erdong.warehouse.pojo.Quick" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into quick (user_id, `describe`, doctor_id,
+      suggestion, create_time, res_time,title
+      )
+    values (#{userId,jdbcType=BIGINT}, #{describe,jdbcType=VARCHAR}, #{doctorId,jdbcType=BIGINT}, 
+      #{suggestion,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{resTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.erdong.warehouse.pojo.Quick" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into quick
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="describe != null" >
+        `describe`,
+      </if>
+      <if test="doctorId != null" >
+        doctor_id,
+      </if>
+      <if test="suggestion != null" >
+        suggestion,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="resTime != null" >
+        res_time,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null" >
+        #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resTime != null" >
+        #{resTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.erdong.warehouse.pojo.Quick" >
+    update quick
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="describe != null" >
+        `describe` = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null" >
+        doctor_id = #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="suggestion != null" >
+        suggestion = #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resTime != null" >
+        res_time = #{resTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="title != null" >
+        suggestion = #{title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erdong.warehouse.pojo.Quick" >
+    update quick
+    set user_id = #{userId,jdbcType=BIGINT},
+      `describe` = #{describe,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=BIGINT},
+      suggestion = #{suggestion,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      res_time = #{resTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT
+	q.*, m.`name`
+FROM
+	`quick` q
+LEFT JOIN t_sys_manager m ON m.id = q.doctor_id
+where q.user_id = #{userId,jdbcType=BIGINT} order by create_time desc
+  </select>
+  <select id="selectBy" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    SELECT
+    q.*, m.`name`
+    FROM
+    `quick` q
+    LEFT JOIN t_sys_manager m ON m.id = q.doctor_id
+    order by create_time desc
+  </select>
+</mapper>

@@ -1,0 +1,53 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/quick/quick",
+   "pages/pinpai/pinpai",
+    "pages/register/register",
+    "pages/show/show",
+    "pages/predict/predict",
+    "pages/question/question",
+     "pages/health/health",
+     "pages/quickdetail/quickdetail",
+     "pages/healthdetail/healthdetail",
+     "pages/questionDetail/questionDetail"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "backgroundColor": "#87CEFA",
+    "selectedColor": "#ffffff",
+    "borderStyle": "blue",
+    "list": [
+      {
+        "pagePath": "pages/show/show",
+        "text": "预约挂号",
+        "iconPath": "/images/大象.png",
+        "selectedIconPath": "/images/河马.png"
+      },
+      {
+        "pagePath": "pages/quick/quick",
+        "text": "快速问诊",
+        "iconPath": "/images/狗.png",
+        "selectedIconPath": "/images/猫.png"
+      },
+      {
+        "pagePath": "pages/health/health",
+        "text": "健康日志",
+        "iconPath": "/images/海牛.png",
+        "selectedIconPath": "/images/鲸鱼.png"
+      },
+      {
+        "pagePath": "pages/pinpai/pinpai",
+        "text": "用户中心",
+        "iconPath": "/images/白兔.png",
+        "selectedIconPath": "/images/鸭子.png"
+      }
+    ]
+  }
+}

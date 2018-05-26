@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erdong.warehouse.mapper.HospitalMapper" >
+  <resultMap id="BaseResultMap" type="com.erdong.warehouse.pojo.Hospital" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="chcek" property="chcek" jdbcType="VARCHAR" />
+    <result column="illness" property="illness" jdbcType="VARCHAR" />
+    <result column="suggestion" property="suggestion" jdbcType="VARCHAR" />
+    <result column="pet_type" property="petType" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="predict_id" property="predictId" jdbcType="BIGINT" />
+    <result column="doctor_id" property="doctorId" jdbcType="BIGINT" />
+    <result column="medical" property="medical" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, chcek, illness, suggestion, pet_type, age, predict_id, doctor_id, medical, create_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hospital
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hospital
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.erdong.warehouse.pojo.Hospital" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hospital (chcek, illness, suggestion, 
+      pet_type, age, predict_id, 
+      doctor_id, medical, create_time
+      )
+    values (#{chcek,jdbcType=VARCHAR}, #{illness,jdbcType=VARCHAR}, #{suggestion,jdbcType=VARCHAR}, 
+      #{petType,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{predictId,jdbcType=BIGINT}, 
+      #{doctorId,jdbcType=BIGINT}, #{medical,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.erdong.warehouse.pojo.Hospital" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hospital
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="chcek != null" >
+        chcek,
+      </if>
+      <if test="illness != null" >
+        illness,
+      </if>
+      <if test="suggestion != null" >
+        suggestion,
+      </if>
+      <if test="petType != null" >
+        pet_type,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="predictId != null" >
+        predict_id,
+      </if>
+      <if test="doctorId != null" >
+        doctor_id,
+      </if>
+      <if test="medical != null" >
+        medical,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="chcek != null" >
+        #{chcek,jdbcType=VARCHAR},
+      </if>
+      <if test="illness != null" >
+        #{illness,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="petType != null" >
+        #{petType,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="predictId != null" >
+        #{predictId,jdbcType=BIGINT},
+      </if>
+      <if test="doctorId != null" >
+        #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="medical != null" >
+        #{medical,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.erdong.warehouse.pojo.Hospital" >
+    update hospital
+    <set >
+      <if test="chcek != null" >
+        chcek = #{chcek,jdbcType=VARCHAR},
+      </if>
+      <if test="illness != null" >
+        illness = #{illness,jdbcType=VARCHAR},
+      </if>
+      <if test="suggestion != null" >
+        suggestion = #{suggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="petType != null" >
+        pet_type = #{petType,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="predictId != null" >
+        predict_id = #{predictId,jdbcType=BIGINT},
+      </if>
+      <if test="doctorId != null" >
+        doctor_id = #{doctorId,jdbcType=BIGINT},
+      </if>
+      <if test="medical != null" >
+        medical = #{medical,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erdong.warehouse.pojo.Hospital" >
+    update hospital
+    set chcek = #{chcek,jdbcType=VARCHAR},
+      illness = #{illness,jdbcType=VARCHAR},
+      suggestion = #{suggestion,jdbcType=VARCHAR},
+      pet_type = #{petType,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      predict_id = #{predictId,jdbcType=BIGINT},
+      doctor_id = #{doctorId,jdbcType=BIGINT},
+      medical = #{medical,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+
+     SELECT
+    q.*, m.`name`
+    FROM
+    hospital q
+    LEFT JOIN t_sys_manager m ON m.id = q.doctor_id
+    inner JOIN predict p on p.id=q.predict_id and p.user_id=#{userId,jdbcType=BIGINT}
+     order by create_time desc
+  </select>
+  <select id="healthList" parameterType="java.util.Map" resultType="com.erdong.warehouse.pojo.Hospital">
+    SELECT
+    q.*, m.`name`,u.nickname
+    FROM
+    hospital q
+    LEFT JOIN t_sys_manager m ON m.id = q.doctor_id
+    LEFT JOIN predict p  on p.id=q.predict_id
+    inner join `user`  u on  u.id=p.user_id
+    <if test="nickname!=null">
+      and LOCATE(#{nickname,jdbcType=VARCHAR}, u.nickname) > 0
+    </if>
+    WHERE  1=1
+    <if test="doctorId!=null">
+      and  q.doctor_id =#{doctorId}
+    </if>
+    <if test="firstTime != null and secondTime!=null">
+      AND q.create_time BETWEEN  #{firstTime} and #{secondTime}
+    </if>
+    order by predict_time desc
+  </select>
+</mapper>
